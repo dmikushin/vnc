@@ -33,7 +33,7 @@ echo "regolith-session" >> ~/.vnc/xstartup
 chmod +x ~/.vnc/xstartup
 touch ~/.Xresources
 
-vncserver -SecurityTypes None
+vncserver
 
 mkdir -p ~/.config/regolith2
 echo "regolith.wallpaper.file: ~/wallpaper.jpg" >> ~/.config/regolith2/Xresources
