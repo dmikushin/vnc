@@ -27,7 +27,7 @@ mkdir -p ~/.vnc
 touch ~/.vnc/xstartup
 mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
 echo "#!/bin/bash" >> ~/.vnc/xstartup
-echo "xrdb $HOME/.Xresources" >> ~/.vnc/xstartup
+#echo "xrdb $HOME/.Xresources" >> ~/.vnc/xstartup
 # For 20.04 it was echo "regolith-session &" >> ~/.vnc/xstartup
 echo "regolith-session" >> ~/.vnc/xstartup
 chmod +x ~/.vnc/xstartup
