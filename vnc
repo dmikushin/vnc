@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+#
+# Connect to VNC server with Remmina as specified
+# in the given .json configuration
+#
+import json
+import os
+import sys
+from pathlib import Path
+from command_runner import command_runner, command_runner_threaded
+import socket
+import time
+
+def wait_for_port(port: int, host: str = 'localhost', timeout: float = 5.0):
+    """Wait until a port starts accepting TCP connections.
+    Args:
+        port: Port number.
+        host: Host address on which the port should exist.
+        timeout: In seconds. How long to wait before raising errors.
+    Raises:
+        TimeoutError: The port isn't accepting connection after time specified in `timeout`.
+    """
+    start_time = time.perf_counter()
+    while True:
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                break
+        except OSError as ex:
+            time.sleep(0.01)
+            if time.perf_counter() - start_time >= timeout:
+                raise TimeoutError('Waited too long for the port {} on host {} to start accepting '
+                                   'connections.'.format(port, host)) from ex
+
+if __name__ == '__main__':
+
+    if len(sys.argv) != 2:
+        print(f'Usage: {sys.argv[0]} <config>')
+        print(f'\t<config> should be a filename in ~/.vnc folder, for example:')
+        print('cat ~/.vnc/my_ssh_server')
+        print('{')
+        print('\t"server": "my_ssh_server.com",')
+        print('\t"server_port": "5901",')
+        print('\t"client_port": "15901"')
+        print('}')
+        sys.exit(1)
+
+    config = sys.argv[1]
+
+    filename = os.path.join(os.path.join(Path.home(), '.vnc'), config)
+    print(f'Opening config file {filename}')
+    with open(filename) as f:
+    
+        # Get JSON object as  a dictionary
+        c = json.load(f)
+        server = c['server']
+        server_port = int(c['server_port'])
+        client_port = int(c['client_port'])
+
+    print('Starting local port forwarding...')
+    ssh_cmd = f'ssh -L {client_port}:localhost:{server_port} {server} -N'
+    print(ssh_cmd)
+    command_runner_threaded(ssh_cmd)
+
+    # Wait for port to become available
+    wait_for_port(client_port)
+
+    print('Start vnc connection...')
+    remmina_cmd = f'remmina -c vnc://localhost:{client_port}'
+    command_runner(remmina_cmd)
+
