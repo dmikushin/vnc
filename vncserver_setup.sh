@@ -15,6 +15,8 @@ sudo apt update
 
 sudo apt install ubuntu-gnome-desktop tigervnc-standalone-server regolith-desktop regolith-compositor-none i3xrocks-focused-window-name i3xrocks-rofication i3xrocks-info i3xrocks-app-launcher i3xrocks-memory
 
+mkdir -p ~/.vnc
+
 VNCCONF=~/.vnc/tigervnc.conf
 touch $VNCCONF
 mv $VNCCONF $VNCCONF.bak
@@ -23,7 +25,6 @@ echo '$localhost = "yes";' >> $VNCCONF
 echo '$SecurityTypes = "None";' >> $VNCCONF
 echo '1;' >> $VNCCONF
 
-mkdir -p ~/.vnc
 touch ~/.vnc/xstartup
 mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
 echo "#!/bin/bash" >> ~/.vnc/xstartup
