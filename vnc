@@ -56,15 +56,22 @@ if __name__ == '__main__':
         server_port = int(c['server_port'])
         client_port = int(c['client_port'])
 
-    print('Starting local port forwarding...')
+    remminaStopped = False
+
+    print('Starting SSH-tunnelled local port forwarding...')
     ssh_cmd = f'ssh -L {client_port}:localhost:{server_port} {server} -N'
-    print(ssh_cmd)
-    command_runner_threaded(ssh_cmd)
+    def is_remmina_stopped():
+        return remminaStopped
+    command_runner_threaded(ssh_cmd, stop_on=is_remmina_stopped)
 
     # Wait for port to become available
     wait_for_port(client_port)
 
-    print('Start vnc connection...')
+    print('Start VNC connection...')
     remmina_cmd = f'remmina -c vnc://localhost:{client_port}'
     command_runner(remmina_cmd)
+
+    remminaStopped = True
+
+    print('Finished VNC connection, bye!')
 
