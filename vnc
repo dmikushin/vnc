@@ -62,7 +62,7 @@ if __name__ == '__main__':
     ssh_cmd = f'ssh -L {client_port}:localhost:{server_port} {server} -N'
     def is_remmina_stopped():
         return remminaStopped
-    command_runner_threaded(ssh_cmd, stop_on=is_remmina_stopped)
+    command_runner_threaded(ssh_cmd, stop_on=is_remmina_stopped, timeout=0)
 
     # Wait for port to become available
     wait_for_port(client_port)
