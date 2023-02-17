@@ -15,35 +15,6 @@ sudo apt update
 
 sudo apt install ubuntu-gnome-desktop tigervnc-standalone-server regolith-desktop regolith-compositor-none i3xrocks-focused-window-name i3xrocks-rofication i3xrocks-info i3xrocks-app-launcher i3xrocks-memory
 
-mkdir -p ~/.vnc
-
-VNCCONF=~/.vnc/tigervnc.conf
-touch $VNCCONF
-mv $VNCCONF $VNCCONF.bak
-echo '$geometry = "1920x1080";' >> $VNCCONF
-echo '$localhost = "yes";' >> $VNCCONF
-echo '$SecurityTypes = "None";' >> $VNCCONF
-echo '1;' >> $VNCCONF
-
-touch ~/.vnc/xstartup
-mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
-echo "#!/bin/bash" >> ~/.vnc/xstartup
-#echo "xrdb $HOME/.Xresources" >> ~/.vnc/xstartup
-# For 20.04 it was echo "regolith-session &" >> ~/.vnc/xstartup
-echo "regolith-session" >> ~/.vnc/xstartup
-chmod +x ~/.vnc/xstartup
-touch ~/.Xresources
-
-vncserver
-
-mkdir -p ~/.config/regolith2
-echo "regolith.wallpaper.file: ~/wallpaper.jpg" >> ~/.config/regolith2/Xresources
-echo "regolith.wallpaper.options: stretched" >> ~/.config/regolith2/Xresources
-echo "regolith.lockscreen.wallpaper.file: ~/wallpaper.jpg" >> ~/.config/regolith2/Xresources
-echo "regolith.lockscreen.wallpaper.options: stretched" >> ~/.config/regolith2/Xresources
-echo "i3-wm.mod: Mod1" >> ~/.config/regolith2/Xresources
-echo "i3-wm.alt: Mod4" >> ~/.config/regolith2/Xresources
-
 DISPLAY=:1.0 regolith-look refresh
 
 # Kill vncserver, if needed
