@@ -1,0 +1,12 @@
+[Unit]
+Description=VNC Server Daemon for ##USER_CAP## account
+Before=network.service
+
+[Service]
+User=##USER##
+Restart=on-failure
+RestartSec=5s
+ExecStart=vncserver4user -fg
+
+[Install]
+WantedBy=basic.target

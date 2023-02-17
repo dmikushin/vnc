@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+if [ "$#" -ne 1 ]; then
+    echo "Description: create a user account, fully prepared for desktop broadcasting with VNC"
+    echo "Usage: $0 <username>"
+    echo "Example: $0 johmsmith"
+    exit 1
+fi
+TEMPL=vncuseradd
+useradd --create-home $1
+mkdir -p /tmp/$1
+cp -rf /usr/share/$TEMPL /tmp/$1
+chown $1 /tmp/$1/$TEMPL -R
+chgrp $1 /tmp/$1/$TEMPL -R
+shopt -s dotglob
+mv /tmp/$1/$TEMPL/* /home/$1/
+rm -rf /tmp/$1/$TEMPL
+sed -i "s/##USER##/$1/g" /home/$1/vnc.service
+sed -i "s/##USER_CAP##/\U$1/g" /home/$1/vnc.service 
+mv /home/$1/vnc.service /usr/lib/systemd/system/$1.service
+systemctl daemon-reload
+systemctl enable $1
+systemctl start $1
+
