@@ -71,6 +71,16 @@ if __name__ == '__main__':
     remmina_cmd = f'remmina -c vnc://localhost:{client_port}'
     command_runner(remmina_cmd)
 
+    # Wait for port to become available
+    try:
+        wait_for_port(client_port)
+ 
+        print('Start VNC connection...')
+        remmina_cmd = f'remmina -c vnc://localhost:{client_port}'
+        command_runner(remmina_cmd)
+    except:
+        pass
+ 
     # TODO If Remmina application is already running, this instance of Remmina
     # will exit immediately. So, we need another way to track the VNC session status.
     remminaStopped = True
