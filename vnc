@@ -64,15 +64,8 @@ if __name__ == '__main__':
         return remminaStopped
     command_runner_threaded(ssh_cmd, stop_on=is_remmina_stopped, timeout=0)
 
-    # Wait for port to become available
-    wait_for_port(client_port)
-
-    print('Start VNC connection...')
-    remmina_cmd = f'remmina -c vnc://localhost:{client_port}'
-    command_runner(remmina_cmd)
-
-    # Wait for port to become available
     try:
+        # Wait for port to become available
         wait_for_port(client_port)
  
         print('Start VNC connection...')
