@@ -1,0 +1,6 @@
+regolith.wallpaper.file: ~/wallpaper.jpg
+regolith.wallpaper.options: stretched
+regolith.lockscreen.wallpaper.file: ~/wallpaper.jpg
+regolith.lockscreen.wallpaper.options: stretched
+i3-wm.mod: Mod1
+i3-wm.alt: Mod4
