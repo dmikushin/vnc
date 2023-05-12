@@ -13,4 +13,4 @@ install_server:
 	mkdir -p /usr/share/vncuseradd
 	cp -rf .config /usr/share/vncuseradd/
 	cp -rf .vnc /usr/share/vncuseradd/
-
+	cp -rf vnc.service /usr/share/vncuseradd/
